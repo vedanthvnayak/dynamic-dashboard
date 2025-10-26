@@ -1,74 +1,83 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Dashboard } from "@/components/dashboard"
-import { WidgetSidebar } from "@/components/widget-sidebar"
+import { useState } from "react";
+import { Dashboard } from "@/components/dashboard";
+import { WidgetSidebar } from "@/components/widget-sidebar";
 
 export default function Home() {
-  const [widgets, setWidgets] = useState<Array<{ id: string; type: string }>>([])
-  const [draggedWidget, setDraggedWidget] = useState<string | null>(null)
-  const [widgetSizes, setWidgetSizes] = useState<Record<string, { width: number; height: number }>>({})
-  const [widgetPositions, setWidgetPositions] = useState<Record<string, { x: number; y: number }>>({})
+  const [widgets, setWidgets] = useState<Array<{ id: string; type: string }>>(
+    []
+  );
+  const [draggedWidget, setDraggedWidget] = useState<string | null>(null);
+  const [widgetSizes, setWidgetSizes] = useState<
+    Record<string, { width: number; height: number }>
+  >({});
+  const [widgetPositions, setWidgetPositions] = useState<
+    Record<string, { x: number; y: number }>
+  >({});
 
   const handleDragStart = (type: string, e: React.DragEvent) => {
-    e.dataTransfer.effectAllowed = "copy"
-    e.dataTransfer.setData("widgetType", type)
-    setDraggedWidget(type)
-  }
+    e.dataTransfer.effectAllowed = "copy";
+    e.dataTransfer.setData("widgetType", type);
+    setDraggedWidget(type);
+  };
 
   const handleDragEnd = () => {
-    setDraggedWidget(null)
-  }
+    setDraggedWidget(null);
+  };
 
   const handleDropOnCanvas = (e: React.DragEvent) => {
-    e.preventDefault()
-    const widgetType = e.dataTransfer.getData("widgetType")
+    e.preventDefault();
+    const widgetType = e.dataTransfer.getData("widgetType");
     if (widgetType) {
       const newWidget = {
         id: `${widgetType}-${Date.now()}`,
         type: widgetType,
-      }
-      setWidgets([...widgets, newWidget])
+      };
+      setWidgets([...widgets, newWidget]);
       setWidgetSizes((prev) => ({
         ...prev,
         [newWidget.id]: { width: 350, height: 300 },
-      }))
+      }));
       setWidgetPositions((prev) => ({
         ...prev,
-        [newWidget.id]: { x: 40 + widgets.length * 40, y: 40 + widgets.length * 40 },
-      }))
-      setDraggedWidget(null)
+        [newWidget.id]: {
+          x: 40 + widgets.length * 40,
+          y: 40 + widgets.length * 40,
+        },
+      }));
+      setDraggedWidget(null);
     }
-  }
+  };
 
   const removeWidget = (id: string) => {
-    setWidgets(widgets.filter((w) => w.id !== id))
+    setWidgets(widgets.filter((w) => w.id !== id));
     setWidgetSizes((prev) => {
-      const newSizes = { ...prev }
-      delete newSizes[id]
-      return newSizes
-    })
+      const newSizes = { ...prev };
+      delete newSizes[id];
+      return newSizes;
+    });
     setWidgetPositions((prev) => {
-      const newPositions = { ...prev }
-      delete newPositions[id]
-      return newPositions
-    })
-  }
+      const newPositions = { ...prev };
+      delete newPositions[id];
+      return newPositions;
+    });
+  };
   const handleMoveWidget = (id: string, x: number, y: number) => {
     setWidgetPositions((prev) => ({
       ...prev,
       [id]: { x, y },
-    }))
-  }
+    }));
+  };
 
   const handleResizeWidget = (id: string, width: number, height: number) => {
     setWidgetSizes((prev) => ({
       ...prev,
       [id]: { width: Math.max(300, width), height: Math.max(300, height) },
-    }))
-  }
+    }));
+  };
 
   // Arrange widgets in a grid layout
   const arrangeWidgets = () => {
@@ -102,7 +111,10 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background dark">
       <div className="flex h-screen">
-        <WidgetSidebar onDragStart={handleDragStart} draggedWidget={draggedWidget} />
+        <WidgetSidebar
+          onDragStart={handleDragStart}
+          draggedWidget={draggedWidget}
+        />
         <div className="flex-1 flex flex-col">
           <div className="p-4 flex gap-2">
             <button
@@ -128,5 +140,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
+  );
 }

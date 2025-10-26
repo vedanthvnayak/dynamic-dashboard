@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { LayoutGrid } from "lucide-react"
-import { WidgetContainer } from "./widget-container"
+import { LayoutGrid } from "lucide-react";
+import { WidgetContainer } from "./widget-container";
 
 interface DashboardProps {
-  widgets: Array<{ id: string; type: string }>
-  onRemoveWidget: (id: string) => void
-  onDropOnCanvas: (e: React.DragEvent) => void
-  onDragEnd: () => void
-  draggedWidget: string | null
-  widgetSizes: Record<string, { width: number; height: number }>
-  widgetPositions: Record<string, { x: number; y: number }>
-  onResizeWidget: (id: string, width: number, height: number) => void
-  onMoveWidget: (id: string, x: number, y: number) => void
+  widgets: Array<{ id: string; type: string }>;
+  onRemoveWidget: (id: string) => void;
+  onDropOnCanvas: (e: React.DragEvent) => void;
+  onDragEnd: () => void;
+  draggedWidget: string | null;
+  widgetSizes: Record<string, { width: number; height: number }>;
+  widgetPositions: Record<string, { x: number; y: number }>;
+  onResizeWidget: (id: string, width: number, height: number) => void;
+  onMoveWidget: (id: string, x: number, y: number) => void;
 }
 
 export function Dashboard({
@@ -38,10 +38,12 @@ export function Dashboard({
               <LayoutGrid className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
+              <h1 className="text-2xl font-semibold text-foreground">
+                Dashboard
+              </h1>
               <p className="text-xs text-muted-foreground mt-0.5">
-                {widgets.length} widget{widgets.length !== 1 ? "s" : ""} • Drag from sidebar to add • Drag corner to
-                resize
+                {widgets.length} widget{widgets.length !== 1 ? "s" : ""} • Drag
+                from sidebar to add • Drag corner to resize
               </p>
             </div>
           </div>
@@ -50,10 +52,12 @@ export function Dashboard({
 
       {/* Canvas */}
       <div
-        className={`flex-1 overflow-auto p-8 transition-colors ${draggedWidget ? "bg-primary/5" : ""}`}
+        className={`flex-1 overflow-auto p-8 transition-colors ${
+          draggedWidget ? "bg-primary/5" : ""
+        }`}
         onDragOver={(e) => {
-          e.preventDefault()
-          e.dataTransfer.dropEffect = "copy"
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "copy";
         }}
         onDrop={onDropOnCanvas}
         onDragLeave={() => {}}
@@ -65,8 +69,12 @@ export function Dashboard({
               <div className="w-20 h-20 rounded-2xl bg-muted/50 mx-auto mb-6 flex items-center justify-center">
                 <LayoutGrid className="w-10 h-10 text-muted-foreground/50" />
               </div>
-              <h2 className="text-2xl font-semibold text-foreground mb-2">Your dashboard is empty</h2>
-              <p className="text-muted-foreground mb-6">Open the sidebar and drag widgets here to get started</p>
+              <h2 className="text-2xl font-semibold text-foreground mb-2">
+                Your dashboard is empty
+              </h2>
+              <p className="text-muted-foreground mb-6">
+                Open the sidebar and drag widgets here to get started
+              </p>
             </div>
           </div>
         ) : (
@@ -87,5 +95,5 @@ export function Dashboard({
         )}
       </div>
     </div>
-  )
+  );
 }
